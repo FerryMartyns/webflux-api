@@ -35,8 +35,6 @@ public class PlaylistService {
     }
 
     public void delete(String id) {
-        playlistRepository.findById(id).flatMap(existingPlaylist -> {
-            return playlistRepository.delete(existingPlaylist);
-        });
+        playlistRepository.findById(id).flatMap(existingPlaylist -> playlistRepository.delete(existingPlaylist));
     }
 }
