@@ -1,9 +1,12 @@
 package br.com.apiwebflux.apiwebflux.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +35,21 @@ public class PlaylistController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Mono<Playlist>> save(@RequestBody Playlist p) {
         return ResponseEntity.ok(playlistService.save(p));
+    }
+
+    @Transactional
+    @PutMapping("/{id}")
+    public ResponseEntity<Mono<Playlist>> update(@PathVariable String id, @RequestBody Playlist p) {
+        return ResponseEntity.ok(playlistService.update(id, p));
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        playlistService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
